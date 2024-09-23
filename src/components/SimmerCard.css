@@ -1,0 +1,49 @@
+.shimmer-parent-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.shimmer-container{
+    height: 350px;
+    width: 250px;
+    background-color: #80737341;
+    border-radius: 5px;
+    margin: 30px 30px;
+}
+
+.shimmer-card-one{
+    display: inline-block;
+    height: 50%;
+    width: 90%;
+    background-color: #9996968b;
+    border-radius: 5px;
+    margin: 13px 13px;
+}
+
+.shimmer-card-two{
+    display: inline-block;
+    height: 10%;
+    width: 90%;
+    background-color: #9996968b;
+    border-radius: 5px;
+    margin: 0px 13px;
+}
+
+.shimmer-card-three{
+    display: inline-block;
+    height: 10%;
+    width: 90%;
+    background-color: #9996968b;
+    border-radius: 5px;
+    margin: 5px 13px;
+}
+
+.shimmer-card-four{
+    display: inline-block;
+    height: 10%;
+    width: 90%;
+    background-color: #9996968b;
+    border-radius: 5px;
+    margin: 0px 13px;
+}
