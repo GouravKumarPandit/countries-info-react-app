@@ -1,0 +1,36 @@
+.ver-shimmer-container{
+    height: 400px;
+    width: 80%;
+    background-color: #80737341;
+    border-radius: 5px;
+    margin-inline: auto;
+    margin-top: 50px;
+    display: flex;
+}
+
+.ver-shimmer-card-one{
+    display: inline-block;
+    height: 50%;
+    width: 50%;
+    background-color: #9996968b;
+    border-radius: 5px;
+    margin: 13px 13px;
+}
+
+.ver-shimmer-card-two{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+    margin: 0px 13px;
+}
+
+.ver-shimmer-card-two div{
+    display: inline-block;
+    height: 5%;
+    width: 90%;
+    background-color: #9996968b;
+    border-radius: 5px;
+    margin: 13px 13px;
+}
+

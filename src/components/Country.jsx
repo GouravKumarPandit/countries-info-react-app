@@ -1,13 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import './country.css'
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import './Country.css'
+import { Link, useLocation, useParams } from 'react-router-dom';
+import HorizontalShimmerCard from './HorizontalShimmerCard';
 
 function Country() {
-    const [countryData, setCountryData] = useState({});
+    const location = useLocation();
+    const singleCountryData = location.state;
+    let countryDataObj = {};
+    if(singleCountryData){
+        countryDataObj = {
+            flag: singleCountryData?.flags.svg,
+            country_name: singleCountryData?.name.common,
+            native_name: Object.values(singleCountryData?.name.nativeName)[0].common,
+            population: singleCountryData?.population.toLocaleString('en-IN'),
+            region: singleCountryData?.region,
+            sub_region: singleCountryData?.subregion,
+            capital_name: singleCountryData?.capital?.[0],
+            top_level_domain: singleCountryData?.tld.join(', '),
+            currencies: Object.values(singleCountryData?.currencies).map((currency) => currency.name).join(', '),
+            languages: Object.values(singleCountryData?.languages).join(', '),
+            border_boundries: singleCountryData.borders ? singleCountryData.borders : []
+        }
+    }
+    const [countryData, setCountryData] = useState(countryDataObj);
     const {country} = useParams('country');
 
     useEffect(() => {
-        fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`)
+        if(!singleCountryData){
+            // console.log("Indside If Fetch....")
+            fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`)
             .then((result) => result.json())
             .then(([data]) => {
                 setCountryData({
@@ -39,40 +60,53 @@ function Country() {
                 })
             })
             .catch((error) => console.log(error))
+        } else{
+            // console.log("Inside Else Promise....")
+            countryData && Promise.all(
+                countryData.border_boundries.map((border) => {
+                    return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+                        .then((result) => result.json())
+                        .then(([borderData]) => borderData.name.common )
+                })
+            ).then((allBorder) => {
+                return setCountryData((previousState) => ({...previousState, border_boundries: allBorder}));
+            })
+        }
+    }, [location]);
 
-    }, []);
-
-    return (
-        <div className="country-details-container">
-            <div className="country-details">
-                <img src={countryData.flag} alt={`${countryData.country_name} Flag`} />
-                <div className="details-text-container">
-                    <h1>{countryData.country_name}</h1>
-                    <div className="details-text">
-                        <p><b>Native Name: </b><span className="native-name">{countryData.native_name}</span></p>
-                        <p><b>Population: </b><span className="population">{countryData.population}</span></p>
-                        <p><b>Region: </b><span className="region">{countryData.region}</span></p>
-                        <p><b>Sub Region: </b><span className="sub-region">{countryData.sub_region}</span></p>
-                        <p><b>Capital: </b><span className="capital">{countryData.capital_name}</span></p>
-                        <p>
-                            <b>Top Level Domain: </b><span className="top-level-domain">{countryData.top_level_domain}</span>
-                        </p>
-                        <p><b>Currencies: </b><span className="currencies">{countryData.currencies}</span></p>
-                        <p><b>Languages: </b><span className="languages">{countryData.languages}</span></p>
-                    </div>
-                    {
-                        countryData.border_boundries && 
-                        <div className="border-countries">
-                            <b>Border Countries:  
-                                {countryData.border_boundries.map((border) => <Link className='border-link' to={`/${border}`} key={border}>{border}</Link> )} 
-                            </b>
-                        &nbsp;
+    if(Object.values(countryData).length == 0){
+        return <HorizontalShimmerCard />
+    } else{
+        return (
+            <div className="country-details-container">
+                <div className="country-details">
+                    <img src={countryData.flag} alt={`${countryData.country_name} Flag`} />
+                    <div className="details-text-container">
+                        <h1>{countryData.country_name}</h1>
+                        <div className="details-text">
+                            <p><b>Native Name: </b><span className="native-name">{countryData.native_name}</span></p>
+                            <p><b>Population: </b><span className="population">{countryData.population}</span></p>
+                            <p><b>Region: </b><span className="region">{countryData.region}</span></p>
+                            <p><b>Sub Region: </b><span className="sub-region">{countryData.sub_region}</span></p>
+                            <p><b>Capital: </b><span className="capital">{countryData.capital_name}</span></p>
+                            <p>
+                                <b>Top Level Domain: </b><span className="top-level-domain">{countryData.top_level_domain}</span>
+                            </p>
+                            <p><b>Currencies: </b><span className="currencies">{countryData.currencies}</span></p>
+                            <p><b>Languages: </b><span className="languages">{countryData.languages}</span></p>
                         </div>
-                    }
+                        {
+                            countryData.border_boundries && 
+                            <div className="border-countries">
+                                <b>Border Countries:  </b>
+                                {countryData.border_boundries.map((border) => <Link key={border} to={`/${border}`}>{border}</Link>)}
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
-        </div>
-    )
+            </div> 
+        )
+    }
 }
 
 export default Country

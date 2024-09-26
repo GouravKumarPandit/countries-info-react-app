@@ -48,7 +48,7 @@
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
 }
 
 .border-countries a {
@@ -61,10 +61,6 @@
 
 .theme-changer {
     cursor: pointer;
-}
-
-.border-link{
-    margin: 0px 5px;
 }
 
 @media(max-width: 940px) {

@@ -1,9 +1,8 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 function CountryList({countryData}) {
     return (
-        <Link className="country-card" to={countryData.name.common}>
+        <Link className="country-card" to={`/${countryData.name.common}`} state={countryData}>
             <img src={countryData?.flags?.svg} alt={`${countryData.name.common} Flag`} />
             <div className="card-text">
                 <h3 className="card-title">{countryData.name.common}</h3>

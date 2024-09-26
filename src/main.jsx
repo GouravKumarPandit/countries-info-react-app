@@ -3,25 +3,17 @@ import { createRoot } from 'react-dom/client'
 import Home from './Home.jsx'
 import './index.css'
 import AllCountries from './components/AllCountries.jsx'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import Country from './components/Country.jsx'
 
-const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Home />,
-		children: [
-			{
-				path: "",
-				element: <AllCountries />
-			},
-			{
-				path: "/:country",
-				element: <Country />
-			}
-		]
-	},
-]);
+const router = createBrowserRouter(
+	createRoutesFromElements(
+		<Route path='/' element={<Home />} >
+			<Route path='/' element={<AllCountries />} />
+			<Route path='/:country' element={<Country />} />
+		</Route>
+	)
+);
 
 createRoot(document.getElementById('root')).render(
 	<React.StrictMode>

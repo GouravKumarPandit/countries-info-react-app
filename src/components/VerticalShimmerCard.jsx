@@ -1,6 +1,6 @@
-import './SimmerCard.css'
+import './VerticalShimmerCard.css'
 
-function SimmerCard() {
+function VerticalShimmerCard() {
     return (
         <div className="shimmer-container">
             <a className="shimmer-card-one"></a>
@@ -11,4 +11,4 @@ function SimmerCard() {
     )
 }
 
-export default SimmerCard
+export default VerticalShimmerCard
