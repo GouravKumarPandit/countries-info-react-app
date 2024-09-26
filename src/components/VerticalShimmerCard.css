@@ -1,7 +1,10 @@
 .shimmer-parent-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    max-width: 1200px;
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 32px;
+    margin-inline: auto;
 }
 
 .shimmer-container{
